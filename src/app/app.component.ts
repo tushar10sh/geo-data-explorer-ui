@@ -89,7 +89,7 @@ export class AppComponent implements OnInit {
             this.currentPage * this.itemsPerPage,
             (this.currentPage + 1) * this.itemsPerPage
           );
-        const startCount = this.currentPage * this.itemsPerPage;
+        const startCount = this.currentPage * this.itemsPerPage + 1;
         const endCount = (this.currentPage + 1) * this.itemsPerPage > this.tifDataListArray.length ?
           this.tifDataListArray.length :
           (this.currentPage + 1) * this.itemsPerPage;
@@ -107,7 +107,7 @@ export class AppComponent implements OnInit {
             this.currentPage * this.itemsPerPage,
             (this.currentPage + 1) * this.itemsPerPage
           );
-        const startCount = this.currentPage * this.itemsPerPage;
+        const startCount = this.currentPage * this.itemsPerPage + 1;
         const endCount = (this.currentPage + 1) * this.itemsPerPage > this.searchResults.length ?
           this.searchResults.length :
           (this.currentPage + 1) * this.itemsPerPage;
