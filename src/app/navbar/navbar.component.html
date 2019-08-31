@@ -1,0 +1,58 @@
+<div id="avid-navbar" class="navbar navbar-expand-lg navbar-light bg-light pt-0 pb-0 fixed-top" style="font-weight: normal;" role="navigation">
+
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+            <span class="navbar-brand mb-0 h1">{{ title }}</span>
+            <!-- <img src="{% static 'assets/img/avid_logo_new20.gif' %}" width=40 height=40 class="d-inline-block align-center"  alt="mainLogo"> -->
+            <!-- <img src="{% static 'assets/img/name_header2.png' %}" height=40 class="d-inline-block align-center" style="filter: gray;-webkit-filter: grayscale(1); filter: grayscale(1);" alt="mainHeader"> -->
+        </a>
+   </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>	
+
+    <div class="collapse navbar-collapse" id="navbarNav" style="text-align: right;">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item pr-1">
+                <a class="nav-link" (click)="showManageLayers($event)"><span class="fas fa-layer-group pr-1" aria-hidden="true"></span>Layers</a>
+            </li>
+            <li class="nav-item pr-1">
+                <a class="nav-link" (click)="showSettings($event)"><span class="fas fa-cog pr-1" aria-hidden="true"></span>Settings</a>
+            </li>
+            <li class="nav-item pr-1">
+                <a class="nav-link" (click)="showSettings($event)"><span class="fas fa-sign-in-alt pr-1" aria-hidden="true"></span>Sign In</a>
+            </li>
+            <li class="nav-item pr-1">
+                <a class="nav-link" (click)="showSettings($event)"><span class="fas fa-sign-out-alt pr-1" aria-hidden="true"></span>Logout</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="container-fluid pt-3 pb-4" style="min-height: 50px"></div>
+
+<div class="modal fade" #settingsModal id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="settingsModalTitle">{{ title }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="handleCloseSettings($event)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col form-check form-check-inline ml-2">
+                        <input class="form-check-input" type="checkbox" id="partialIntersect" #partialIntersect (change)="handleCheckboxClick($event, partialIntersect.checked)" [checked]="this.isPartialIntersect">
+                        <label class="form-check-label" for="partialIntersect">Partial Intersect</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="handleCloseSettings($event)">Close</button>
+                <button type="button" class="btn btn-success"   data-dismiss="modal" (click)="handleSaveSettings($event)">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+<nav *ngIf="pagesArray.length>0" class="mt-2" aria-label="Page navigation example">
+    
+    <ul class="pagination justify-content-end">
+        <li class="page-item mr-2 disabled">
+            <span class="page-link">Showing {{ this.startCount }} - {{ this.endCount }} of {{ this.totalCount }}</span>
+        </li>
+
+        <li class="page-item" [ngClass]="{ disabled: currentPage===0 }">
+        <a class="page-link" href="#" tabindex="-1" (click)="handlePreviousPage($event)">Previous</a>
+        </li>
+        <li *ngFor="let idx of pagesArray" class="page-item" [ngClass]="{ active: idx===currentPage }">
+            <a class="page-link" href="#" (click)="handlePageChange($event, idx)">{{ idx + 1 }}</a>
+        </li>
+        
+        <li class="page-item" [ngClass]="{disabled: currentPage===(pagesArray.length-1)}">
+        <a class="page-link" href="#" (click)="handleNextPage($event)">Next</a>
+        </li>
+    </ul>
+</nav>

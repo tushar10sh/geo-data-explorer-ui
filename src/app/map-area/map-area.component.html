@@ -1,0 +1,33 @@
+<div style="height: 90vh;" 
+    class="mt-2" 
+    id="map"
+    leaflet
+    [leafletOptions]="options"
+    [(leafletCenter)]="this.options.center"
+    [leafletLayers]="rectangles.rects"
+    (leafletMapReady)="onMapReady($event)"
+    (leafletMouseMove)="onMapMouseMove($event)"
+    >
+
+    <div id="drawmap"
+        leafletDraw
+        [leafletDrawOptions]="drawOptions"
+        (leafletDrawStart)="handleDrawStart($event)"
+        (leafletDrawCreated)="handleDrawRectangle($event)"
+        (leafletDrawEdited)="handleEditRectangle($event)"
+    ></div>
+    
+    <!-- <div *ngIf="this.imageDataOverlays.length>0">
+        <div 
+            *ngFor="let imgOverlay of imageDataOverlays" 
+            [leafletLayer]="imgOverlay">
+        </div>
+    </div> -->
+
+    <div 
+        id="lat_long_container" 
+        class="leaflet-top leaflet-right leaflet-bar mt-1 mr-1" 
+        style="background-color: white; color: black;"
+    > {{ this.latLngString }} </div>
+
+</div>

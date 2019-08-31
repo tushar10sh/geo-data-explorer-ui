@@ -1,0 +1,85 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<app-navbar 
+  [title]=" 'Geo Data Filter' "
+  (showManageLayerDialog)="showManageLayerDialog($event)"
+  ></app-navbar>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-5">
+
+      <app-data-filter 
+        [geoBounds]="this.geoBounds"
+        (latLonChanged)="handleLatLonChange($event)"
+      ></app-data-filter>
+
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-primary" (click)="handleReload($event)">Reload All</button>
+        </div>
+
+        <div class="col">
+          <app-data-table-filter
+            [value]="this.searchPlaceholder"
+            (searchStringChanged)="handleSearchOnTable($event)"
+            >
+          </app-data-table-filter>
+        </div>
+      </div>
+
+      <app-data-list
+        [startIndex]="this.currentPage*this.itemsPerPage"
+        [tifDataListArray]="this.paginatedResult"
+        [noSearchResultsFound]="this.noSearchResultsFound"
+        (rowClicked)="handleRowClick($event)"
+        (rowEnter)="handleRowEnter($event)"
+        (rowLeft)="handleRowLeave($event)"
+      ></app-data-list>
+
+      <app-pagination
+        *ngIf="this.totalPages>0 && (!this.noSearchResultsFound)"
+        [totalPages]="this.totalPages"
+        [currentPage]="this.currentPage"
+        [resultCountSubject]="this.resultCountSubject"
+        (pageChanged)="handlePageChange($event)"
+      ></app-pagination>
+
+    </div>
+
+    <div class="col-7">
+
+      <app-map-area
+        [geoBounds]="this.socketService.geoBounds"
+        [colorArray]="this.colorArray"
+        [highlightRectangle]="this.highlightRectangle"
+        [tifDataListArray]="this.tifDataListArray"
+        [reloadSubject]="this.reloadSubject"
+        [panRectangleWithId]="this.panRectangleWithId"
+        [imageDataOverlayObjSubject]="this.imageDataOverlayObjSubject"
+        [removeDataOverlayObjSubject]="this.removeDataOverlayObjSubject"
+        (latLonChanged)="handleLatLonChange($event)"
+      ></app-map-area>
+
+    </div>
+
+  </div>
+</div>
+
+<app-data-info 
+  [title]="this.dataInfo.title"
+  [hidden]="this.dataInfo.hidden"
+  [dataInfo]="this.dataInfo.info"
+  (showDataOnMap)="handleShowDataOnMap($event)"
+  (dismissDataInfo)="handleDataInfoClose($event)"
+>
+</app-data-info>
+
+<app-manage-layer
+  [modalDisplay]="this.showLayerManager"
+  [pngDataObjs]="this.socketService.imageDataOverlayObjs"
+  (displayLayerManager)="showManageLayerDialog($event)"
+  (updatePngDataObjs)="updatePngDataObjs($event)"
+  >
+</app-manage-layer>
+
+<router-outlet></router-outlet>

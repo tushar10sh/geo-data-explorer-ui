@@ -1,0 +1,34 @@
+<div class="mt-2" style="overflow-x: auto;">
+    <table *ngIf="tifDataListArray && tifDataListArray.length>0 && (!noSearchResultsFound)" class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Filename</th>
+                <th scope="col">Min. Lat.</th>
+                <th scope="col">Max Lat.</th>
+                <th scope="col">Min. Lon.</th>
+                <th scope="col">Max. Lon.</th>
+            </tr>
+        </thead>
+
+        <tbody *ngFor="let elem of tifDataListArray; let idx=index">
+            <tr (click)="handleRowClick($event, elem.id )" (mouseenter)="handleRowEnter($event, elem.id)" (mouseleave)="handleRowLeft($event, elem.id)">
+                <th scope="row"> {{ idx + 1 + startIndex }} </th>
+                <td>{{elem.fileName}}</td>
+                <td>{{elem.geoInfo.coordinates.ullr.lat[1].toFixed(3)}}</td>
+                <td>{{elem.geoInfo.coordinates.ullr.lat[0].toFixed(3)}}</td>
+                <td>{{elem.geoInfo.coordinates.ullr.lon[0].toFixed(3)}}</td>
+                <td>{{elem.geoInfo.coordinates.ullr.lon[1].toFixed(3)}}</td>
+            </tr> 
+                
+        </tbody>
+
+    </table>
+
+    <div *ngIf="noSearchResultsFound" class="container-fluid">
+        <h3 class="text-center">
+            No Results Found!!!
+        </h3>
+    </div>
+
+</div>

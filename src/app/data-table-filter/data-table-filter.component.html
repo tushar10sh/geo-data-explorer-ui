@@ -1,0 +1,14 @@
+<form (submit)="handleSearch($event, dataTableFilterInput.value)">
+    <div class="form-group">
+        <input 
+            #dataTableFilterInput 
+            class="form-control" 
+            id="dataTableFilter" 
+            type="text"
+            [placeholder]="placeholder"
+            [value]="value"
+            (keyup)="handleSearch($event, dataTableFilterInput.value)"
+            (click)="handleClick($event, dataTableFilterInput.value)"
+        />
+    </div>
+</form>

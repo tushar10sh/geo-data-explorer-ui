@@ -1,0 +1,46 @@
+<div class="mt-3">
+            
+    <span class="text-left">
+        <h4>Select latitude and longitude to filter</h4>
+    </span>
+
+    <div class="row">
+
+        <div class="col-lg-6 col-md-12">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="lat_min_label">Min. Lat.</span>
+                </div>
+                <input class="form-control" type="number" id="lat_min" step="0.001" [value]="this.geoBounds.minLat.toFixed(3)" #rminLat (change)="handleLatLonChange(0,rminLat.value)"/>
+                
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="lat_max_label">Max. Lat.</span>
+                </div>
+                <input class="form-control" type="number" id="lat_max" step="0.001" [value]="this.geoBounds.maxLat.toFixed(3)" #rmaxLat (change)="handleLatLonChange(1,rmaxLat.value)"/>
+            </div>
+        </div>
+        <div class=" col-lg-6 col-md-12">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="lon_min_label">Min. Lon.</span>
+                </div>
+                <input class="form-control" type="number" id="lon_min" step="0.001" [value]="this.geoBounds.minLon.toFixed(3)" #rminLon (change)="handleLatLonChange(2,rminLon.value)"/>    
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12" >
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="lon_max_label">Max. Lon.</span>
+                </div>
+                <input class="form-control" type="number" id="lon_max" step="0.001" [value]="this.geoBounds.maxLon.toFixed(3)" #rmaxLon (change)="handleLatLonChange(3,rmaxLon.value)" />
+            </div>
+        </div>
+
+    </div>
+
+</div>
