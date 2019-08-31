@@ -1,5 +1,22 @@
-# GeoDataExplorer-UI
-
+# Geo Data Explorer - UI
+Web front end for real time geo data service running at background at http://localhost:3002.
+Some screenshots for the application
+## Application top level view
+![](/images/application-top-level-view.png)
+## Draw rectangle to filter results on map
+![](/images/draw-rectangle.png)
+## Filtered reults on table 
+![](/images/filtered-results.png)
+## Data Information dialog ( by click on data row )
+![](/images/data-information-dialog.png)
+## Data added to map ( by click on Show Data On Map button)
+![](/images/data-added-to-map.png)
+## All datasets added to map
+![](/images/all-data-added-to-map.png)
+## Layer manager to remove added data to map
+![](/images/layer-manager.png)
+## Settings option for enabling/disabling partial intersection to bounding box with data 
+![](/images/settings.png)
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.1.
 
 ## Development server
