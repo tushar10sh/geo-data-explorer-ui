@@ -219,7 +219,7 @@ export class MapAreaComponent implements OnInit, OnChanges {
     this.imageDataOverlayObjSubject.subscribe( pngDataObj => {
       if ( pngDataObj ) {
         let imageDataOverlay = [];
-        imageDataOverlay = this.imageDataOverlays.filter( obj => obj.pngDatObj.id === pngDataObj.id );
+        imageDataOverlay = this.imageDataOverlays.filter( obj => obj.pngDataObj.id === pngDataObj.id );
         // If objs is not found add to imageDataOverlays and on map
         if ( imageDataOverlay.length === 0 ) {
           imageDataOverlay = [ imageOverlay(pngDataObj.pngUrl, pngDataObj.bounds) ];
