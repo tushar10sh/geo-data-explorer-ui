@@ -127,7 +127,7 @@ export class MapAreaComponent implements OnInit, OnChanges {
     if (this.rectangles.rects.length > 0) {
       this.imageDataOverlays = [];
       this.rectangles.rects.forEach( rect => rect.remove() );
-      this.rectangles = {ids:[], rects:[]};
+      this.rectangles = {ids: [], rects: []};
     }
   }
 
@@ -230,6 +230,20 @@ export class MapAreaComponent implements OnInit, OnChanges {
             }
           );
           imageDataOverlay[0].addTo(e);
+        } else {
+          if ( imageDataOverlay && imageDataOverlay[0].pngUrl !== pngDataObj.pngUrl ) {
+            const idx = this.imageDataOverlays.findIndex( obj => obj.pngDataObj.id === pngDataObj.id );
+            this.imageDataOverlays[idx].imageOverlayObj.remove();
+            imageDataOverlay = [ imageOverlay(pngDataObj.pngUrl, pngDataObj.bounds) ];
+            this.imageDataOverlays.splice(idx, 1);
+            this.imageDataOverlays.push(
+              {
+                pngDataObj,
+                imageOverlayObj: imageDataOverlay[0]
+              }
+            );
+            imageDataOverlay[0].addTo(e);
+          }
         }
       }
     });

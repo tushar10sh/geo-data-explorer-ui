@@ -44,6 +44,14 @@ export class SocketService {
     //   console.log("uanble to connect");
     // })
     this.imageDataOverlayObjs = [];
+    this.settingsService.clearCacheSubject.subscribe( (isClearCache: boolean) => {
+      this.socket.emit('clear-cache', isClearCache);
+      this.socket.on('cache-cleared', (cacheCleared: boolean) => {
+        setTimeout( () => {
+          this.settingsService.cacheClearedSubject.next(cacheCleared);
+        }, 100);
+      });
+    });
   }
 
   public getDataList(): any {
@@ -139,12 +147,19 @@ export class SocketService {
 
   public getDataAsPng(elemId: string): any {
     const obs = new Observable ( (observer) => {
-      this.socket.emit('prepare-data-as-png', elemId );
+      this.socket.emit('prepare-data-as-png', { elemId, imageResizePercentage: this.settingsService.imageResizePercentageValue });
       this.socket.on('recieve-data-as-png', (payload) => {
         const elem = this.imageDataOverlayObjs.filter( (elem) => elem.id === payload.id );
         if ( elem.length === 0) {
           this.imageDataOverlayObjs.push(payload);
           observer.next(payload);
+        } else {
+          if ( elem && elem[0].pngUrl !== payload.pngUrl ) {
+            const idx = this.imageDataOverlayObjs.findIndex( elem => elem.id === payload.id );
+            this.imageDataOverlayObjs.splice(idx, 1);
+            this.imageDataOverlayObjs.push(payload);
+            observer.next(payload);
+          }
         }
       });
     });
