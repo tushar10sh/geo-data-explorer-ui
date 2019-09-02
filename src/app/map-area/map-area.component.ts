@@ -11,10 +11,12 @@ import {
 import { Subject } from 'rxjs';
 
 import { imageOverlay, tileLayer, latLng, rectangle, polyline, latLngBounds, LatLngBoundsExpression, LatLng, Rectangle } from 'leaflet';
+import { Control, DomUtil } from 'leaflet';
 
 import { GeoBounds } from './../geo-bounds';
 declare let L;
 import 'leaflet-draw';
+import { bufferTime } from 'rxjs/operators';
 declare let $: any;
 
 @Component({
@@ -45,6 +47,10 @@ export class MapAreaComponent implements OnInit, OnChanges {
 
   public latLngString: string = 'Lat: 0.0, Lng: 0.0';
   public imageDataOverlays: any;
+  private rectangleToggleText: string = 'on';
+
+  private rectangleToggle;
+  private showRectangles: boolean;
 
   constructor(
     private changeDetector: ChangeDetectorRef
@@ -64,7 +70,7 @@ export class MapAreaComponent implements OnInit, OnChanges {
       layers: [
         tileLayer(
           // 'http://10.61.141.217:8092/osm_tiles/{z}/{x}/{y}.png',
-           'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
           { maxZoom: 18, attribution: '...' }
         )
       ],
@@ -86,6 +92,44 @@ export class MapAreaComponent implements OnInit, OnChanges {
 
     this.boundingBox = null;
     this.imageDataOverlays = [];
+    const RectangleToggleControl = Control.extend({
+      onAdd: (map) => {
+        const btn = DomUtil.create('button');
+        btn.className = 'btn btn-sm btn-primary';
+        btn.innerHTML = `
+          <small class='mr-1'>Rectangles</small>
+          <span class='badge badge-light'>
+            ${this.rectangleToggleText}
+          </span>`;
+        btn.onclick = (e) => {
+          this.handleToggleRectangles(e);
+          btn.innerHTML = `
+          <small class='mr-1'>Rectangles</small>
+          <span class='badge badge-light'>
+            ${this.rectangleToggleText}
+          </span>`;
+        };
+        return btn;
+      },
+      onRemove: (map) => {
+      }
+    });
+    this.showRectangles = true;
+    // const LatLngControl = Control.extend({
+    //   onAdd: (map) => {
+    //     const span = DomUtil.create('span');
+    //     span.innerHTML = `${this.latLngString}`;
+    //     return span;
+    //   },
+    //   onRemove: (map) => {
+    //   }
+    // });
+    this.rectangleToggle = (opts) => {
+      return new RectangleToggleControl(opts);
+    };
+    // this.latLngDisplay = (opts) => {
+    //   return new LatLngControl(opts);
+    // };
   }
 
   repositionMap() {
@@ -207,6 +251,9 @@ export class MapAreaComponent implements OnInit, OnChanges {
   }
 
   onMapReady(e: any) {
+    // this.latLngDisplay({ position: 'topright'}).addTo(e);
+    this.rectangleToggle({ position: 'topright'}).addTo(e);
+
     this.panRectangleWithId.subscribe( (elemId) => {
       const idx = this.rectangles.ids.findIndex( rid => rid === elemId );
       if ( idx >= 0 ) {
@@ -306,6 +353,17 @@ export class MapAreaComponent implements OnInit, OnChanges {
       };
       this.latLonChanged.emit(newGeoBounds);
     }
+  }
+
+  handleToggleRectangles(e: any): boolean {
+    e.preventDefault();
+    this.rectangleToggleText = this.rectangleToggleText === 'on' ? 'off' : 'on';
+    if ( this.rectangleToggleText === 'off' ) {
+      this.showRectangles = false;
+    } else {
+      this.showRectangles = true;
+    }
+    return false;
   }
 
 }

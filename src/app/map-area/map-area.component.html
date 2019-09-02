@@ -4,7 +4,7 @@
     leaflet
     [leafletOptions]="options"
     [(leafletCenter)]="this.options.center"
-    [leafletLayers]="rectangles.rects"
+    
     (leafletMapReady)="onMapReady($event)"
     (leafletMouseMove)="onMapMouseMove($event)"
     >
@@ -17,16 +17,16 @@
         (leafletDrawEdited)="handleEditRectangle($event)"
     ></div>
     
-    <!-- <div *ngIf="this.imageDataOverlays.length>0">
+    <div *ngIf="this.showRectangles">
         <div 
-            *ngFor="let imgOverlay of imageDataOverlays" 
-            [leafletLayer]="imgOverlay">
+            *ngFor="let rect of this.rectangles.rects" 
+            [leafletLayer]="rect">
         </div>
-    </div> -->
+    </div>
 
     <div 
         id="lat_long_container" 
-        class="leaflet-top leaflet-right leaflet-bar mt-1 mr-1" 
+        class="leaflet-bottom leaflet-left leaflet-bar mb-1 ml-1" 
         style="background-color: white; color: black;"
     > {{ this.latLngString }} </div>
 

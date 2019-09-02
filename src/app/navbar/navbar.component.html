@@ -51,15 +51,37 @@
                 <div class="row mt-1">
                     <div class="col form-check form-check-inline ml-2">
                         <label class="form-check-label mr-2" for="imageResizePercentage">Image Resize Percentage</label>
-                        <input class="form-check-input" type="range" id="imageResizePercentage" #imageResizePercentage min="1" max="100" step="1" (input)="handleResizePercentangeChange($event, imageResizePercentage.value)" [value]="this.imageResizePercentageValue">
+                        <input class="form-check-input ml-auto" type="range" id="imageResizePercentage" #imageResizePercentage min="1" max="100" step="1" (input)="handleResizePercentangeChange($event, imageResizePercentage.value)" [value]="this.imageResizePercentageValue">
                         <small> {{ this.imageResizePercentage.value }} </small>
                     </div>
                 </div>
                 <div class="row mt-1">
                     <div class="col form-check form-check-inline ml-2">
                         <label class="form-check-label mr-2" for="cacheClear">Clear Image Cache (caution !)</label>
-                        <button class="btn btn-danger btn-sm" (click)="handleCacheClear($event)">Clear</button>
                         <span *ngIf="this.cacheCleared" class="ml-1">Cache is cleared !!</span>
+                        <button class="btn btn-danger btn-sm ml-auto" (click)="handleCacheClear($event)">Clear</button>
+                        
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col form-check form-check-inline ml-2">
+                        <label class="form-check-label mr-2" for="dataMin">Minimum Data Value</label>
+                        <input class="form-check-input ml-auto" type="number" id="dataMin" #dataMin min="-100000" max="100000" step="0.001" (change)="handleDataMinValueChange($event, dataMin.value)" [value]="this.dataMinValue">
+                        
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col form-check form-check-inline ml-2">
+                        <label class="form-check-label mr-2" for="dataMax">Maximum Data Value</label>
+                        <input class="form-check-input ml-auto" type="number" id="dataMax" #dataMax min="-100000" max="100000" step="0.001" (change)="handleDataMaxValueChange($event, dataMax.value)" [value]="this.dataMaxValue">
+                        
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col form-check form-check-inline ml-2">
+                        <label class="form-check-label mr-2" for="nodata">No Data Value</label>
+                        <input class="form-check-input ml-auto" type="number" id="nodata" #nodata min="-100000" max="100000" step="0.001" (change)="handleNoDatavalueChange($event, nodata.value)" [value]="this.noDataValue">
+                        
                     </div>
                 </div>
             </div>

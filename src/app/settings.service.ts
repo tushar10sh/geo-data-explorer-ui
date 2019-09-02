@@ -12,5 +12,9 @@ export class SettingsService {
   public clearCacheSubject: Subject<boolean> = new Subject();
   public cacheClearedSubject: Subject<boolean> = new Subject();
 
+  public dataMinValue: number = 0;
+  public dataMaxValue: number = 1000;
+  public noDataValue: number = 0;
+
   constructor() { }
 }

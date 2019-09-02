@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
   public imageDataOverlayObjSubject: Subject<any> = new Subject();
   public removeDataOverlayObjSubject: Subject<any> = new Subject();
 
-  public showLayerManager: boolean;
+  public showLayerManager: Subject<boolean> = new Subject();
 
   constructor(
     public socketService: SocketService
@@ -157,7 +157,7 @@ export class AppComponent implements OnInit {
   }
 
   showManageLayerDialog(display: boolean) {
-    this.showLayerManager = display;
+    this.showLayerManager.next(display);
   }
 
   handleLatLonChange(geoBounds: GeoBounds): boolean {
@@ -263,8 +263,13 @@ export class AppComponent implements OnInit {
     return false;
   }
 
-  handleShowDataOnMap(elemId: string) {
-    this.socketService.getDataAsPng(elemId).subscribe( (pngDataObj) => {
+  handleShowDataOnMap(data) {
+    const elemId: string = data[0];
+    const imageResizePercentage: number = data[1];
+    const dataMinValue: number = data[2];
+    const dataMaxValue: number = data[3];
+    const noDataValue: number = data[4];
+    this.socketService.getDataAsPng(elemId, imageResizePercentage, dataMinValue, dataMaxValue, noDataValue).subscribe( (pngDataObj) => {
       this.imageDataOverlayObjSubject.next(pngDataObj);
     });
   }

@@ -145,9 +145,21 @@ export class SocketService {
     return obs;
   }
 
-  public getDataAsPng(elemId: string): any {
+  public getDataAsPng(
+    elemId: string,
+    imageResizePercentage: number,
+    dataMinValue: number,
+    dataMaxValue: number,
+    noDataValue: number
+  ): any {
     const obs = new Observable ( (observer) => {
-      this.socket.emit('prepare-data-as-png', { elemId, imageResizePercentage: this.settingsService.imageResizePercentageValue });
+      this.socket.emit('prepare-data-as-png', { 
+        elemId,
+        imageResizePercentage,
+        dataMinValue,
+        dataMaxValue,
+        noDataValue
+      });
       this.socket.on('recieve-data-as-png', (payload) => {
         const elem = this.imageDataOverlayObjs.filter( (elem) => elem.id === payload.id );
         if ( elem.length === 0) {

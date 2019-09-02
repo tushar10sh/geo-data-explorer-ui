@@ -21,6 +21,10 @@ export class NavbarComponent implements OnInit {
   private settingsHidden: boolean;
   private cacheCleared: boolean;
 
+  private dataMinValue: number;
+  private dataMaxValue: number;
+  private noDataValue: number;
+
   constructor(
     public settingsService: SettingsService
   ) {
@@ -38,6 +42,9 @@ export class NavbarComponent implements OnInit {
         this.cacheCleared = false;
       }, 2000);
     });
+    this.dataMinValue = this.settingsService.dataMinValue;
+    this.dataMaxValue = this.settingsService.dataMaxValue;
+    this.noDataValue = this.settingsService.noDataValue;
   }
 
   showSettings(e: any): boolean {
@@ -76,12 +83,34 @@ export class NavbarComponent implements OnInit {
     e.preventDefault();
     this.settingsService.isPartialIntersect = this.isPartialIntersect;
     this.settingsService.imageResizePercentageValue = this.imageResizePercentageValue;
+
+    this.settingsService.dataMinValue = this.dataMinValue;
+    this.settingsService.dataMaxValue = this.dataMaxValue;
+    this.settingsService.noDataValue = this.noDataValue;
     return false;
   }
 
   showManageLayers(e: any): boolean {
     e.preventDefault();
     this.showManageLayerDialog.emit(true);
+    return false;
+  }
+
+  handleDataMinValueChange(e: any, value: number) {
+    e.preventDefault();
+    this.dataMinValue = value;
+    return false;
+  }
+
+  handleDataMaxValueChange(e: any, value: number) {
+    e.preventDefault();
+    this.dataMaxValue = value;
+    return false;
+  }
+
+  handleNoDataValueChange(e: any, value: number) {
+    e.preventDefault();
+    this.noDataValue = value;
     return false;
   }
 }

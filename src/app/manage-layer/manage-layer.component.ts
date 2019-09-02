@@ -1,4 +1,5 @@
 import { Component, OnInit, OnChanges, Input, ViewChild, ElementRef, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Subject } from 'rxjs';
 
 declare let $: any;
 
@@ -9,7 +10,7 @@ declare let $: any;
 })
 export class ManageLayerComponent implements OnInit, OnChanges {
 
-  @Input() modalDisplay: boolean;
+  @Input() modalDisplay: Subject<boolean>;
   @Input() pngDataObjs: any;
 
   @Output() displayLayerManager: EventEmitter<boolean>;
@@ -19,22 +20,18 @@ export class ManageLayerComponent implements OnInit, OnChanges {
 
   public imageDataObjs: any;
   constructor() {
-    this.modalDisplay = true;
     this.displayLayerManager = new EventEmitter();
     this.updatePngDataObjs = new EventEmitter();
   }
 
   ngOnInit() {
     this.imageDataObjs = this.pngDataObjs;
+    this.modalDisplay.subscribe( (modalDisplay) => {
+      $(this.modal.nativeElement).modal({show: modalDisplay});
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if ( changes.modalDisplay ) {
-      if ( this.modal ) {
-        this.imageDataObjs = this.pngDataObjs;
-        $(this.modal.nativeElement).modal({show: changes.modalDisplay.currentValue});
-      }
-    }
     if ( changes.pngDataObjs ) {
       this.imageDataObjs = changes.pngDataObjs.currentValue;
     }
@@ -45,8 +42,7 @@ export class ManageLayerComponent implements OnInit, OnChanges {
   }
 
   handleCloseLayers(e: any): boolean {
-    this.modalDisplay = true;
-    $(this.modal.nativeElement).modal({show: this.modalDisplay});
+    e.preventDefault();
     this.displayLayerManager.emit(false);
     return false;
   }

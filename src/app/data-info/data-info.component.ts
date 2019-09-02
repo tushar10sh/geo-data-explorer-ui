@@ -1,3 +1,4 @@
+import { SettingsService } from './../settings.service';
 import { 
   Component, 
   OnInit, 
@@ -19,21 +20,33 @@ declare let $: any;
 export class DataInfoComponent implements OnInit {
 
   @ViewChild('dataInfoModal', {static: false}) modal: ElementRef;
+  @ViewChild('configureModal', {static: false}) configureModal: ElementRef;
 
   @Input() hidden: boolean;
   @Input() title: string;
   @Input() dataInfo: any;
 
   @Output() dismissDataInfo : EventEmitter<boolean>;
-  @Output() showDataOnMap   : EventEmitter<string> ;
+  @Output() showDataOnMap   : EventEmitter<[string, number, number, number, number]> ;
 
-  constructor() {
+  private imageResizePercentageValue: number;
+  private dataMinValue: number;
+  private dataMaxValue: number;
+  private noDataValue: number;
+
+  constructor(
+    public settingsService: SettingsService
+  ) {
     this.dismissDataInfo = new EventEmitter;
     this.showDataOnMap   = new EventEmitter;
     this.dataInfo = {};
   }
 
   ngOnInit() {
+    this.imageResizePercentageValue = this.settingsService.imageResizePercentageValue;
+    this.dataMinValue = this.settingsService.dataMinValue;
+    this.dataMaxValue = this.settingsService.dataMaxValue;
+    this.noDataValue = this.settingsService.noDataValue;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -43,6 +56,10 @@ export class DataInfoComponent implements OnInit {
       } else {
         $(this.modal.nativeElement).modal({show: !this.hidden});
       }
+      this.imageResizePercentageValue = this.settingsService.imageResizePercentageValue;
+      this.dataMinValue = this.settingsService.dataMinValue;
+      this.dataMaxValue = this.settingsService.dataMaxValue;
+      this.noDataValue = this.settingsService.noDataValue;
     }
   }
 
@@ -54,10 +71,22 @@ export class DataInfoComponent implements OnInit {
     return JSON.stringify(obj);
   }
 
+  handleShowConfigureOption(e: any): boolean {
+    e.preventDefault();
+    $(this.configureModal.nativeElement).modal({show: true});
+    return false;
+  }
+
   handleShowDataOnMap(e: any): boolean {
     e.preventDefault();
     this.dismissDataInfo.emit(true);
-    this.showDataOnMap.emit(this.dataInfo.id);
+    this.showDataOnMap.emit([
+      this.dataInfo.id,
+      this.imageResizePercentageValue,
+      this.dataMinValue,
+      this.dataMaxValue,
+      this.noDataValue
+    ]);
     return false;
   }
 
@@ -67,4 +96,34 @@ export class DataInfoComponent implements OnInit {
     return false;
   }
 
+  handleResizePercentangeChange(e: any, value: number): boolean {
+    e.preventDefault();
+    this.imageResizePercentageValue = value;
+    return false;
+  }
+
+  handleDataMinValueChange(e: any, value: number) {
+    e.preventDefault();
+    this.dataMinValue = value;
+    return false;
+  }
+
+  handleDataMaxValueChange(e: any, value: number) {
+    e.preventDefault();
+    this.dataMaxValue = value;
+    return false;
+  }
+
+  handleNoDataValueChange(e: any, value: number) {
+    e.preventDefault();
+    this.noDataValue = value;
+    return false;
+  }
+
+  handleCloseConfigure(e: any): boolean {
+    e.preventDefault();
+    this.dismissDataInfo.emit(true);
+    $(this.configureModal.nativeElement).modal({show: false});
+    return false;
+  }
 }
