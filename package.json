@@ -28,7 +28,7 @@
     "leaflet": "^1.5.1",
     "leaflet-draw": "^1.0.4",
     "rxjs": "~6.4.0",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },
